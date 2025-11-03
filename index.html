@@ -73,6 +73,7 @@
     <audio id="correctSound" src="C:\Users\katle\Downloads\user-interface-1.mp3"></audio>
     <audio id="wrongSound" src="C:\Users\katle\Downloads\bonk-sound-effect.mp3"></audio>
 
+
     <script>
         let secretNumber = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
@@ -102,9 +103,11 @@
                 resultDiv.style.color = "orange";
                 wrongSound.play();
             } else {
-                alert(`🎉 You win! 😝 You guessed in ${attempts} tries!`);
-                correctSound.play();
-                resetGame();
+    correctSound.play(); // play sound first
+    setTimeout(() => {
+        alert(`🎉 You win! 😝 You guessed in ${attempts} tries!`);
+        resetGame();
+    }, 200); // 0.2 second delay
             }
         }
 
