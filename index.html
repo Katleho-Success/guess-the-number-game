@@ -13,21 +13,28 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
+
         h1 {
             color: cyan;
             margin-bottom: 20px;
+            text-align: center;
         }
+
         input {
             font-size: 18px;
             padding: 10px;
             width: 80%;
-            max-width: 200px
+            max-width: 200px;
             text-align: center;
             margin-bottom: 10px;
+            border-radius: 8px;
+            border: none;
         }
+
         button {
             font-size: 18px;
             margin: 5px;
@@ -35,10 +42,13 @@
             font-weight: bold;
             border: none;
             cursor: pointer;
-            border-radius: 8px
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
+
         #guessBtn { background-color: #50FA7B; color: black; }
         #resetBtn { background-color: #FF5555; color: white; }
+
         #result {
             margin-top: 20px;
             font-size: 18px;
@@ -49,13 +59,19 @@
 </head>
 <body>
 
-    <h1>🎯 Guess the Number in My Mind! 🙈 (1–100)</h1>
+    <h1>🎯 Guess the Number in My Mind 🙈 (1–100)</h1>
     <input type="number" id="guessInput" placeholder="Enter number">
+
     <div>
         <button id="guessBtn">Guess!</button>
         <button id="resetBtn">Reset Game</button>
     </div>
+
     <div id="result"></div>
+
+    <!-- Sounds -->
+    <audio id="correctSound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+    <audio id="wrongSound" src="https://www.soundjay.com/button/beep-05.mp3"></audio>
 
     <script>
         let secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -66,31 +82,31 @@
         const guessBtn = document.getElementById('guessBtn');
         const resetBtn = document.getElementById('resetBtn');
 
+        const correctSound = document.getElementById('correctSound');
+        const wrongSound = document.getElementById('wrongSound');
+
         function checkGuess() {
-    const guess = parseInt(guessInput.value);
-    attempts++;
+            const guess = parseInt(guessInput.value);
+            attempts++;
 
-    const correctSound = document.getElementById('correctSound');
-    const wrongSound = document.getElementById('wrongSound');
-
-    if (isNaN(guess)) {
-        resultDiv.textContent = "Please enter a number!";
-        resultDiv.style.color = "red";
-        wrongSound.play();
-    } else if (guess < secretNumber) {
-        resultDiv.textContent = "Too low! Try higher 😅";
-        resultDiv.style.color = "yellow";
-        wrongSound.play();
-    } else if (guess > secretNumber) {
-        resultDiv.textContent = "Too high! Try lower 😬";
-        resultDiv.style.color = "orange";
-        wrongSound.play();
-    } else {
-        alert(`🎉 You win! You guessed in ${attempts} tries!`);
-        correctSound.play();
-        resetGame();
-    }
-}
+            if (isNaN(guess)) {
+                resultDiv.textContent = "Please enter a number!";
+                resultDiv.style.color = "red";
+                wrongSound.play();
+            } else if (guess < secretNumber) {
+                resultDiv.textContent = "Too low! Try higher 😅";
+                resultDiv.style.color = "yellow";
+                wrongSound.play();
+            } else if (guess > secretNumber) {
+                resultDiv.textContent = "Too high! Try lower 😬";
+                resultDiv.style.color = "orange";
+                wrongSound.play();
+            } else {
+                alert(`🎉 You win! 😝 You guessed in ${attempts} tries!`);
+                correctSound.play();
+                resetGame();
+            }
+        }
 
         function resetGame() {
             secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -103,12 +119,11 @@
         guessBtn.addEventListener('click', checkGuess);
         resetBtn.addEventListener('click', resetGame);
 
-        // Optional: Press Enter to submit guess
+        // Allow Enter key to submit guess
         guessInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') checkGuess();
         });
     </script>
-<audio id="correctSound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
-<audio id="wrongSound" src="https://www.soundjay.com/button/beep-05.mp3"></audio>
+
 </body>
 </html>
