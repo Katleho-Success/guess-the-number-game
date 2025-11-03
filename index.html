@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Guess the Number Game</title>
+    <style>
+        body {
+            background-color: #282A36;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: cyan;
+            margin-bottom: 20px;
+        }
+        input {
+            font-size: 16px;
+            padding: 5px;
+            width: 120px;
+            text-align: center;
+        }
+        button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 8px 15px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        #guessBtn { background-color: #50FA7B; color: black; }
+        #resetBtn { background-color: #FF5555; color: white; }
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎯 Guess the Number in My Mind! 🙈 (1–100)</h1>
+    <input type="number" id="guessInput" placeholder="Enter number">
+    <div>
+        <button id="guessBtn">Guess!</button>
+        <button id="resetBtn">Reset Game</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        const guessInput = document.getElementById('guessInput');
+        const resultDiv = document.getElementById('result');
+        const guessBtn = document.getElementById('guessBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function checkGuess() {
+            const guess = parseInt(guessInput.value);
+            attempts++;
+
+            if (isNaN(guess)) {
+                resultDiv.textContent = "Please enter a number!";
+                resultDiv.style.color = "red";
+            } else if (guess < secretNumber) {
+                resultDiv.textContent = "Too low! Try higher 😅";
+                resultDiv.style.color = "yellow";
+            } else if (guess > secretNumber) {
+                resultDiv.textContent = "Too high! Try lower 😬";
+                resultDiv.style.color = "orange";
+            } else {
+                alert(`🎉 You win! You guessed in ${attempts} tries!`);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            guessInput.value = "";
+            resultDiv.textContent = "New number generated! Guess again.";
+            resultDiv.style.color = "white";
+        }
+
+        guessBtn.addEventListener('click', checkGuess);
+        resetBtn.addEventListener('click', resetGame);
+
+        // Optional: Press Enter to submit guess
+        guessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkGuess();
+        });
+    </script>
+
+</body>
+</html>
