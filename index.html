@@ -14,31 +14,36 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
         }
         h1 {
             color: cyan;
             margin-bottom: 20px;
         }
         input {
-            font-size: 16px;
-            padding: 5px;
-            width: 120px;
+            font-size: 18px;
+            padding: 10px;
+            width: 80%;
+            max-width: 200px
             text-align: center;
+            margin-bottom: 10px;
         }
         button {
-            font-size: 16px;
+            font-size: 18px;
             margin: 5px;
-            padding: 8px 15px;
+            padding: 10px 20px;
             font-weight: bold;
             border: none;
             cursor: pointer;
+            border-radius: 8px
         }
         #guessBtn { background-color: #50FA7B; color: black; }
         #resetBtn { background-color: #FF5555; color: white; }
         #result {
             margin-top: 20px;
-            font-size: 16px;
-            min-height: 24px;
+            font-size: 18px;
+            min-height: 28px;
+            text-align: center;
         }
     </style>
 </head>
@@ -62,23 +67,30 @@
         const resetBtn = document.getElementById('resetBtn');
 
         function checkGuess() {
-            const guess = parseInt(guessInput.value);
-            attempts++;
+    const guess = parseInt(guessInput.value);
+    attempts++;
 
-            if (isNaN(guess)) {
-                resultDiv.textContent = "Please enter a number!";
-                resultDiv.style.color = "red";
-            } else if (guess < secretNumber) {
-                resultDiv.textContent = "Too low! Try higher 😅";
-                resultDiv.style.color = "yellow";
-            } else if (guess > secretNumber) {
-                resultDiv.textContent = "Too high! Try lower 😬";
-                resultDiv.style.color = "orange";
-            } else {
-                alert(`🎉 You win! You guessed in ${attempts} tries!`);
-                resetGame();
-            }
-        }
+    const correctSound = document.getElementById('correctSound');
+    const wrongSound = document.getElementById('wrongSound');
+
+    if (isNaN(guess)) {
+        resultDiv.textContent = "Please enter a number!";
+        resultDiv.style.color = "red";
+        wrongSound.play();
+    } else if (guess < secretNumber) {
+        resultDiv.textContent = "Too low! Try higher 😅";
+        resultDiv.style.color = "yellow";
+        wrongSound.play();
+    } else if (guess > secretNumber) {
+        resultDiv.textContent = "Too high! Try lower 😬";
+        resultDiv.style.color = "orange";
+        wrongSound.play();
+    } else {
+        alert(`🎉 You win! You guessed in ${attempts} tries!`);
+        correctSound.play();
+        resetGame();
+    }
+}
 
         function resetGame() {
             secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -96,6 +108,7 @@
             if (e.key === 'Enter') checkGuess();
         });
     </script>
-
+<audio id="correctSound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+<audio id="wrongSound" src="https://www.soundjay.com/button/beep-05.mp3"></audio>
 </body>
 </html>
